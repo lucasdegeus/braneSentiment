@@ -1,0 +1,35 @@
+name: sentiment
+version: 1.0.0
+kind: compute
+
+dependencies:
+  - python3
+  - python3-yaml
+  - python3-pip
+
+install:
+  - pip3 install spacy
+  - pip3 install numpy
+  - pip3 install nltk
+  - pip3 install demoji
+  - pip3 install emosent-py
+
+files:
+  - sentiment.py
+
+entrypoint:
+  kind: task
+  exec: sentiment.py
+
+actions:
+  'get_sentiment':
+    command:
+      args:
+        - get_sentiment
+      capture: marked
+    input:
+      - type: string
+        name: input
+    output:
+      - type: real
+        name: output
