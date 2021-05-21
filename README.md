@@ -9,6 +9,10 @@ The package can be build using the the following brane commands
 
 brane import lucasdegeus/braneSentiment --kind ecu
 
+It might be the case that during the usage of the package a encoding error occures, this can be fixed by going to the directory containing sentiment.py and running the following command:
+
+chmod +x sentiment.py
+
 To publish the package to make use of the package using Jupyter notebooks or remote sessions:
 
 brane push sentiment 1.0.0
