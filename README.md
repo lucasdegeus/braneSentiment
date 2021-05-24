@@ -1,18 +1,38 @@
-# braneSentiment
+# Sentiment
 
-A brain package that converts an english string to a sentiment score between 0 and 1.
+Sentiment is a brane package for converting strings to a sentiment score between 0 and 1. The expeceted input is an english string.
+
+## Installation
 
 This package required an operational Brane Framework.
 To set up this framework follow the official guide: https://docs.brane-framework.org/getting-started/installation
 
-The package can be build using the the following brane commands
+If on Linux or MacOS first run:
 
-brane import lucasdegeus/braneSentiment --kind ecu
+``` chmod +x sentiment.py ```
 
-It might be the case that during the usage of the package a encoding error occures, this can be fixed by going to the directory containing sentiment.py and running the following command:
+Otherwise/then:
 
-chmod +x sentiment.py
-
-To publish the package to make use of the package using Jupyter notebooks or remote sessions:
-
+```console
+brane build container.yml --kind ecu
 brane push sentiment 1.0.0
+```
+
+Or install using the brane import function: 
+```
+brane import lucasdegeus/braneSentiment --kind ecu
+```
+
+## Usage
+
+```brane
+import sentiment;
+get_sentiment("This is a very positive sentence!");
+```
+
+## Notes
+Currently only the english language is supported. This package uses multiple python libraries including:
+- spacy
+- numpy
+- nltk
+- emosent
