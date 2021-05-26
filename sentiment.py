@@ -13,6 +13,7 @@ import sys
 import os
 import yaml
 import base64
+from typing import List
 demoji.download_codes()
 sid = SentimentIntensityAnalyzer()
 
@@ -84,19 +85,23 @@ def vader2_emo_senti(tweet):
         score = (v2 + emo) / 2
         return(score)
 
-def get_sentiment(s: str) -> int:
-    final_sentiment = vader2_emo_senti(s)
+# def get_sentiment(s: str) -> int:
+#     final_sentiment = vader2_emo_senti(s)
+#     return (final_sentiment)
+
+def get_sentiment(s: List[str]) -> List[float]:
+    final_sentiment = [float(vader2_emo_senti(string)) for string in s]
     return (final_sentiment)
 
 
 if __name__ == "__main__":
   command = sys.argv[1]
-  argument = os.environ["INPUT"]
+  strings = [str(os.environ[f"INPUT_{i}"]) for i in range(int(os.environ["INPUT"]))]
 
   functions = {
     "get_sentiment": get_sentiment,
   }
-  output = float((functions[command](argument)))
+  output = functions[command](strings)
   print("--> START CAPTURE")
   print(yaml.dump({"output": output}))
   print("--> END CAPTURE")
