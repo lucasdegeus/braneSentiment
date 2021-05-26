@@ -1,6 +1,6 @@
 # Sentiment
 
-Sentiment is a brane package for converting strings to a sentiment score between 0 and 1. The expeceted input is an english string.
+Sentiment is a brane package for converting strings to a sentiment score between -1 and 1. The expeceted input is an english string.
 
 ## Installation
 
