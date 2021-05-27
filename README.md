@@ -1,6 +1,6 @@
 # Sentiment
 
-Sentiment is a brane package for converting strings to a sentiment score between -1 and 1. The expeceted input is an english string.
+Sentiment is a brane package for converting strings to a sentiment scores between -1 and 1. The expeceted input is an array of english strings.
 
 ## Installation
 
@@ -27,7 +27,7 @@ brane import lucasdegeus/braneSentiment --kind ecu
 
 ```brane
 import sentiment;
-get_sentiment("This is a very positive sentence!");
+get_sentiment(["This is a very positive sentence!"]);
 ```
 
 ## Notes
