@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+## Import required packages
 import spacy
 import re
 import numpy as np
@@ -17,6 +19,7 @@ from typing import List
 demoji.download_codes()
 sid = SentimentIntensityAnalyzer()
 
+## Create regular expression to remove URLs
 REMOVE_URL = re.compile(
     "([^0-9A-Za-z# \t" +
     "[!\"#$%&'()*+,\-./:;<=>?@[\]^_`{|}~]\"" + # UNTESTED PLS TEST
@@ -52,6 +55,7 @@ def preprocess(tweet):
             final.append(' '.join(word for word in final_tweet))
     return final
 
+## Retrieve the sentiment score for each preprocessed tweet and append to the results array
 def vader_score2(tweet):
     result = [sid.polarity_scores(i)['compound'] for i in preprocess(tweet)]
     result2 = []
@@ -62,6 +66,7 @@ def vader_score2(tweet):
         return 0.0
     return np.mean(result2)
 
+## Calculate the emoji-sentiment in each tweet, if none are present return False
 def calc_emoji_sent(tweet):
     emojis = demoji.findall_list(tweet, desc = False)
     emosentiment = []
@@ -76,6 +81,7 @@ def calc_emoji_sent(tweet):
     else:
         return False
 
+## Combine the textual-sentiment and emoji-sentiment
 def vader2_emo_senti(tweet):
     v2 = vader_score2(tweet)
     emo = calc_emoji_sent(tweet)
@@ -85,23 +91,25 @@ def vader2_emo_senti(tweet):
         score = (v2 + emo) / 2
         return(score)
 
-# def get_sentiment(s: str) -> int:
-#     final_sentiment = vader2_emo_senti(s)
-#     return (final_sentiment)
-
+## Call the sentiment functions and return an array of floats
 def get_sentiment(s: List[str]) -> List[float]:
     final_sentiment = [float(vader2_emo_senti(string)) for string in s]
     return (final_sentiment)
 
 
+
 if __name__ == "__main__":
   command = sys.argv[1]
+  ## Get inputs from environment and parse as string
   strings = [str(os.environ[f"INPUT_{i}"]) for i in range(int(os.environ["INPUT"]))]
 
+  ## Define functions that can be called
   functions = {
     "get_sentiment": get_sentiment,
   }
+  ## Call sentiment function
   output = functions[command](strings)
+  ## Brane output lines
   print("--> START CAPTURE")
   print(yaml.dump({"output": output}))
   print("--> END CAPTURE")
